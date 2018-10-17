@@ -12,3 +12,9 @@ chmod +x install-macos.sh
 ./install-macos.sh
 
 Note: You may need to open a file with vim and type ':PlugInstall' to finish setting up neovim.
+Note: Don't forget to finish basic git configuration:
+$ git config --global user.name "Lactem"
+$ git config --global user.email tilie@usc.edu
+$ git config --global core.editor nvim
+
+Check the configuration with git config --list.
