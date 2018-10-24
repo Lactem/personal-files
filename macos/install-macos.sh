@@ -28,6 +28,10 @@ export PATH=$PATH:/usr/local/bin:/usr/local/sbin
 brew install python
 echo "Checking Python3 installation. Make sure the version is correct in the message below..."
 python3 --version
+pip3 install neovim --upgrade
+
+# Install CMake (required for the Vim Plug 'YouCompleteMe')
+brew install cmake
 
 # Install grip for viewing Github Flavored Markdown (command is grip -b)
 brew install grip

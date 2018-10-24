@@ -6,13 +6,13 @@ set backspace=indent,eol,start " Make backspace delete line breaks and indents
 filetype indent plugin on " Automatically recognize file types
 syntax on
 set showmatch " Show matching [] {} ()
-set autoindent smartindent " Apply indentation of the current line to the next, and react to code syntax/style
 set cmdheight=2 " More room to see vim commands (default is 1)
 set number
-set shiftwidth=2 " Make << and >> move by 2
-set softtabstop=4 " Normal tab is 4 spaces
-set expandtab " Insert softtabstop (ie: 4) spaces each time <TAB> is pressed
 set encoding=utf-8
+
+" Use Python3 binaries
+let g:python2_host_prog = '/usr/local/bin/python3'
+let g:python3_host_prog = '/usr/local/bin/python3'
 
 " Split navigations: ctrl+j, ctrl+k, ctrl+h, ctrl+l are mapped to left, right, up, down, respectively
 " For use with :sp <file> and :vs <file> to open files in vertical and horizontal splits
@@ -21,6 +21,17 @@ nnoremap <C-K> <C-W><C-K>
 nnoremap <C-L> <C-W><C-L>
 nnoremap <C-H> <C-W><C-H>
 
+" Flag extra whitespace and use proper PEP 8 indentation
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+au BufNewFile,BufRead *.py
+    \ set tabstop=4
+    \ set softtabstop=4
+    \ set shiftwidth=4 " Make << and >> move by 2 (should be 4 for PEP 8, so it has to be done twice)
+    \ set textwidth=79
+    \ set expandtab " Insert softtabstop (4) spaces each time <TAB> is pressed
+    \ set autoindent smartindent " Apply indentation of the current line to the next, and react to code syntax/style
+    \ set fileformat=unix
+
 call plug#begin('~/.vim/vim-plug-plugins')
 
 " Airline (status bar)
@@ -28,12 +39,31 @@ Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 let g:airline_theme='papercolor'
 
+" File browsing
+Plug 'scrooloose/nerdtree'
+autocmd vimenter * NERDTree " Open NERDTree automatically when vim starts up
+" Use Ctrl+n to toggle NERDTree
+noremap <C-n> :NERDTreeToggle<CR>
+" Close vim if NERDTree is the only window open
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree")) | q | endif
+
 " Python code folding
 Plug 'tmhedberg/SimpylFold'
 let g:SimpylFold_docstring_preview=1 " Show docstrings even when functions are hidden
-" Use spacebar to fold based on syntax. vc and va are the commands to close and open folds
+" Use spacebar to toggle folds based on syntax.
 set foldmethod=indent
 set foldlevel=99
 nnoremap <space> za
+
+" Auto-indent for proper PEP 8 compliance
+Plug 'vim-scripts/indentpython.vim'
+
+" Code completion
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py' } 
+
+" PEP 8 checking by pressing <F7> to run flake8
+Plug 'nvie/vim-flake8'
+
+" TODO: Maybe add syntastic for file syntax and ctrlP for super searching
 
 call plug#end()
