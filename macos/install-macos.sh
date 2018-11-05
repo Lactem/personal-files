@@ -35,3 +35,6 @@ brew install cmake
 
 # Install grip for viewing Github Flavored Markdown (command is grip -b)
 brew install grip
+
+# Install ripgrep
+brew install ripgrep

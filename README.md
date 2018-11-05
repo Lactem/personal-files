@@ -10,6 +10,7 @@ git clone https://github.com/Lactem/personal-files.git
 cd personal-files/macos  
 chmod +x install-macos.sh  
 ./install-macos.sh  
+:PlugInstall and :UpdateRemotePlugins  
 
 ## Both
 Note: You may need to open a file with vim and type ':PlugInstall' to finish setting up neovim.  
